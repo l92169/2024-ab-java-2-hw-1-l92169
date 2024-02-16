@@ -1,0 +1,12 @@
+type Query {
+    getFilms: [Film!]!
+    getFilm(id: Int!): Film
+}
+
+type Film {
+    id: ID
+    name: String
+}
+type Mutation {
+    saveFilm(name: String): Film
+}
