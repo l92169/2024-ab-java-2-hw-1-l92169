@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-back
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-back
+  template:
+    metadata:
+      labels:
+        app: service-back
+    spec:
+      containers:
+        - name: service-back
+          image: l1zail/homework1:0.0.1
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgres:15432/homework1
+          imagePullPolicy: Always
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-back
+spec:
+  selector:
+    app: service-back
+  ports:
+    - port: 8181
+      targetPort: 8080
+  type: LoadBalancer
