@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <!--Create application data table-->
+
+    <changeSet id="create-images-table" author="dave">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="images"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="images">
+            <column name="id" type="serial">
+                <constraints primaryKey="true" primaryKeyname="images_pk"/>
+            </column>
+
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="size" type="int">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="link" type="varchar(300)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="message_images">
+            <column name="message_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="image_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+
+        <addPrimaryKey columnNames="message_id, image_id"
+                       constraintName="message_images_pk"
+                       tableName="message_images"/>
+
+        <addForeignKeyConstraint baseColumnNames="message_id"
+                                 baseTableName="message_images"
+                                 constraintName="message_images_messages_fk"
+                                 referencedColumnNames="id"
+                                 referencedTableName="messages"/>
+
+        <addForeignKeyConstraint baseColumnNames="image_id"
+                                 baseTableName="message_images"
+                                 constraintName="message_images_images_fk"
+                                 referencedColumnNames="id"
+                                 referencedTableName="images"/>
+    </changeSet>
+</databaseChangeLog>

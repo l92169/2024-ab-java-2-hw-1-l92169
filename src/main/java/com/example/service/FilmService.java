@@ -1,6 +1,6 @@
 package com.example.service;
 
-import com.example.entity.Film;
+import com.example.domain.Film;
 import com.example.repository.FilmRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

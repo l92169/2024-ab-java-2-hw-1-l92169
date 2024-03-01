@@ -1,9 +1,9 @@
 package com.example.repository;
 
-import com.example.domain.Film;
+import com.example.domain.Message;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface FilmRepository extends JpaRepository<Film, Integer> {
+public interface MessageRepository extends JpaRepository<Message, Integer> {
 }
