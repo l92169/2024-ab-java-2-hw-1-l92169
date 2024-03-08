@@ -31,5 +31,45 @@ services:
       interval: 1s
       timeout: 5s
       retries: 10
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017-27017"
+    environment:
+      MONGO_INITDB_DATABASE: sender
+    volumes:
+      - ./environment/mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - sender-mongodb:/data/db
+      - sender-mongo-config:/data/configdb
+  redis:
+    image: redis:7.2-rc-alpine
+    restart: always
+    container_name: redis
+    ports:
+      - "6379-6379"
+    command: redis-server --save 20 1
+    volumes:
+      - sender-redis:/data
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    environment:
+      MINIO_ROOT_USER: user
+      MINIO_ROOT_PASSWORD: password
+    volumes:
+      - ./enviroment/minio/data:/data
+    ports:
+      - "9000-9000"
+      - "9001-9001"
+    command: server /data --console-address :9001
+
 volumes:
   db-data:
+  sender-redis:
+  sender-mongodb:
+  sender-mongo-config:
+  minio_data:
+
+
+

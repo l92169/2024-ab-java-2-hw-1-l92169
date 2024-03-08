@@ -1,6 +1,6 @@
 package com.example.controller;
 
-import com.example.entity.Film;
+import com.example.domain.Film;
 import com.example.service.FilmService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.graphql.data.method.annotation.Argument;
