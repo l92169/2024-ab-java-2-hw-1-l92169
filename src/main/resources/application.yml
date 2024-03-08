@@ -11,7 +11,7 @@ spring:
     hibernate:
       ddl-auto: update
   datasource:
-    url: jdbc:postgresql://localhost:15432/homework1
+    url: jdbc:postgresql://localhost:5432/homework1
     username: postgres
     password: postgres
     driverClassName: org.postgresql.Driver
