@@ -4,15 +4,13 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Data
 @Entity
 @Table(name = "images")
 @Accessors(chain = true)
-public class Image {
+public class ImageT {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;

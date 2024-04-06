@@ -122,7 +122,7 @@ public class JwtService {
      *
      * @return ключ
      */
-    private Key getSigningKey() {
+    Key getSigningKey() {
         byte[] keyBytes = Decoders.BASE64.decode(jwtSigningKey);
         return Keys.hmacShaKeyFor(keyBytes);
     }

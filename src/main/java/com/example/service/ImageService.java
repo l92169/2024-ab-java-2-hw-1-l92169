@@ -1,78 +1,62 @@
 package com.example.service;
 
-import com.example.domain.Image;
-import com.example.domain.Operation;
-import com.example.dto.ImageDto;
-import com.example.dto.OperationDto;
+import com.example.domain.ImageT;
+import com.example.domain.User;
+import com.example.dto.*;
 import com.example.exceptions.ImageNotFoundException;
 import com.example.mapper.ImagesMapper;
 import com.example.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class ImageService {
 
     private final ImageRepository repository;
-    private final ImagesMapper mapper;
-    private final OperationService operationService;
+    private final UserService userService;
     private final MinioService service;
+    private final ImagesMapper mapper;
 
-    public boolean existsAll(List<Integer> imageIds) {
+    public boolean existsAll(List<UUID> imageIds) {
         return repository.existsImagesByIdIn(imageIds);
     }
 
-    public List<Image> getAllImages(List<Integer> imageIds) {
-        return repository.findAllByIdIn(imageIds);
+    public byte[] downloadImage(UUID imageId) throws Exception {
+        User currUser = userService.getCurrentUser();
+        Optional<ImageT> image = repository.findImageById(imageId);
+        if (image.isEmpty() || !image.get().getUserId().equals(currUser.getId()))
+            throw new ImageNotFoundException("Файл не найден в системе или недоступен");
+        return service.downloadImage(image.get().getLink());
     }
 
-    @Cacheable(value = "ImageService::getImageMeta", key = "#id", condition="#id!=null")
-    public ImageDto getImageMeta(int id) {
-        Optional<Image> imageOptional = repository.findImageById(id);
-        if (imageOptional.isEmpty()) {
-            throw new ImageNotFoundException(id+"");
-        }
-
-        ImageDto image = mapper.imageToImageDto(imageOptional.get());
-
-        operationService.logOperation(
-                new OperationDto(
-                        String.format("Read image metadata: %s", image),
-                        LocalDateTime.now(),
-                        Operation.OperationType.WRITE
-                )
-        );
-
-        return image;
+    public UploadImageResponse uploadImage(MultipartFile file) throws Exception {
+        ImageDto imageDto = service.uploadImage(file);
+        ImageT imageT = new ImageT().setName(imageDto.getName()).setSize(imageDto.getSize())
+                .setLink(imageDto.getLink()).setUserId(userService.getCurrentUser().getId());
+        imageT = repository.save(imageT);
+        return new UploadImageResponse(imageT.getId());
     }
 
-    public byte[] downloadImage(String link) throws Exception {
-        if (!repository.existsImagesByLink(link)) {
-            throw new ImageNotFoundException(link);
-        }
-        return service.downloadImage(link);
+    public UiSuccessContainer deleteImage(UUID imageId) {
+        User currUser = userService.getCurrentUser();
+        Optional<ImageT> image = repository.findImageById(imageId);
+        if (image.isEmpty() || !image.get().getUserId().equals(currUser.getId()))
+            throw new ImageNotFoundException("Файл не найден в системе или недоступен");
+        repository.deleteById(imageId);
+        if (!repository.existsImageById(imageId)) return new UiSuccessContainer(true);
+        return new UiSuccessContainer(false);
     }
 
-    @Cacheable(value = "ImageService::getImageMeta", key = "#file != null ? #file.originalFilename : null", condition="#file!=null")
-    public ImageDto uploadImage(MultipartFile file) throws Exception {
-        ImageDto image = service.uploadImage(file);
-        repository.save(mapper.imageDtoToImage(image));
-
-        operationService.logOperation(
-                new OperationDto(
-                        String.format("Upload image: %s", image),
-                        LocalDateTime.now(),
-                        Operation.OperationType.WRITE
-                )
-        );
-        return image;
+    public Object getImages() {
+        User currUser = userService.getCurrentUser();
+        List<ImageT> imagesT = repository.findAllByUserId(currUser.getId());
+        List<Image> images = mapper.imagesToImagesDto(imagesT);
+        return new GetImagesResponse(images);
     }
-
 }

@@ -11,7 +11,7 @@ spring:
     hibernate:
       ddl-auto: update
   datasource:
-    url: jdbc:postgresql://localhost:5432/homework1
+    url: jdbc:postgresql://localhost:15432/homework2
     username: postgres
     password: postgres
     driverClassName: org.postgresql.Driver
@@ -43,3 +43,7 @@ minio:
   secure: false
   bucket: minio-storage
   image-size: 10485760
+
+token:
+  signing:
+    key: AC13E9DC05A0195C9FE3CC6BC81E4729A20AC2DF0AD680A4FAD3D3F961C07F72

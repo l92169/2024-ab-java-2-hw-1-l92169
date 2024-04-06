@@ -1,6 +1,5 @@
 package com.example.auth;
 
-
 import com.example.service.JwtService;
 import com.example.service.UserService;
 import jakarta.servlet.FilterChain;
@@ -17,16 +16,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    public static final String BEARER_PREFIX = "Bearer ";
-    public static final String HEADER_NAME = "Authorization";
+
     private final JwtService jwtService;
     private final UserService userService;
+    public static final String BEARER_PREFIX = "Bearer ";
+    public static final String HEADER_NAME = "Authorization";
 
     @Override
     protected void doFilterInternal(

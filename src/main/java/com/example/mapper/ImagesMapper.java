@@ -1,19 +1,20 @@
 package com.example.mapper;
 
-import com.example.domain.Image;
-import com.example.dto.ImageDto;
+import com.example.domain.ImageT;
+import com.example.dto.Image;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
-import org.mapstruct.Named;
 
 import java.util.List;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface ImagesMapper {
 
-    ImageDto imageToImageDto(Image image);
+    @Mapping(source = "id", target = "imageId")
+    @Mapping(source = "name", target = "filename")
+    @Mapping(source = "size", target = "size")
+    Image imageTToImage(ImageT imageT);
 
-    Image imageDtoToImage(ImageDto imageDto);
-
-    List<ImageDto> imagesToImageDtos(List<Image> images);
+    List<Image> imagesToImagesDto(List<ImageT> imageTs);
 }

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-class Image {
+public class Image {
     @Schema(description = "ИД файла", required = false, format = "uuid")
     private String imageId;
 

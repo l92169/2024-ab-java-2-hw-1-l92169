@@ -37,11 +37,11 @@ public class MinioService {
         return new ImageDto(file.getOriginalFilename(), file.getSize(), fileId);
     }
 
-    public byte[] downloadImage(String link) throws Exception {
+    public byte[] downloadImage(String fileId) throws Exception {
         return IOUtils.toByteArray(client.getObject(
                 GetObjectArgs.builder()
                         .bucket(minioProperties.getBucket())
-                        .object(link)
+                        .object(fileId)
                         .build()));
     }
 }
