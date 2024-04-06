@@ -73,6 +73,8 @@ jobs:
           paths: ${{ github.workspace }}/target/site/jacoco/jacoco.xml
           token: ${{ secrets.GIT_TOKEN }}
           title: Code Coverage
+          min-coverage-overall: 40
+          min-coverage-changed-files: 0
 
   build-and-push:
     name: Build and Push Docker Image
