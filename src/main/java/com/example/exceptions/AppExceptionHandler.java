@@ -42,6 +42,6 @@ public class AppExceptionHandler extends ResponseEntityExceptionHandler {
   public ResponseEntity<?> notFoundException(Exception exception) {
     return ResponseEntity
         .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .body(new UiSuccessContainer(false, "Непредвиденная ошибка"));
+        .body(new UiSuccessContainer(false, exception.getMessage()));
   }
 }
