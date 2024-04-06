@@ -59,7 +59,7 @@ jobs:
       - name: Run Unit Tests and Generate Coverage Report
         run: mvn clean install
 
-      - name: "Add coverage to PR
+      - name: Add coverage to PR
         uses: madrapps/jacoco-report@v1.6.1
         with:
           paths: |
