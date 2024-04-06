@@ -58,7 +58,7 @@ jobs:
 
       - name: Generate Coverage Report
         run: |
-          mvn -B package --file pom.xml
+          mvn clean install
 
       - name: Upload Report
         uses: 'actions/upload-artifact@v2'
