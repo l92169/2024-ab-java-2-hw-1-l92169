@@ -53,8 +53,8 @@ jobs:
       - name: Start PostgreSQL database
         run: docker-compose up -d db
 
-      - name: Wait for PostgreSQL to be ready
-        run: docker-compose exec db pg_isready --quiet || exit 1
+      - name: "Wait for docker to finish building"
+        run: sleep 30
 
       - name: Run Unit Tests and Generate Coverage Report
         run: mvn clean test
