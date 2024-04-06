@@ -57,10 +57,12 @@ jobs:
         run: sleep 30
 
       - name: Run Unit Tests and Generate Coverage Report
-        run: mvn clean test
+        run: mvn clean install
 
-      - name: Upload Coverage Report
-        uses: actions/upload-artifact@v2
+      - name: "Add coverage to PR
+        id: jacoco
+        uses: madrapps/jacoco-report@v1.6.1
         with:
-          name: coverage-report
-          path: target/site/jacoco/index.html
+          paths: |
+            ${{ github.workspace }}/**/site/jacoco/jacoco.xml,
+          token: ${{ secrets.GIT_TOKEN }}

@@ -183,6 +183,11 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.8.12</version>
+                <configuration>
+                    <includes>
+                        <include>com/example/service/*Service.*</include>
+                    </includes>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
