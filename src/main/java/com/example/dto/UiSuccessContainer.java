@@ -9,8 +9,8 @@ import lombok.RequiredArgsConstructor;
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class UiSuccessContainer {
-    @Schema(description = "Признак успеха")
-    private final Boolean success;
-    @Schema(description = "Сообщение об ошибке", required = true)
-    private String message;
+  @Schema(description = "Признак успеха")
+  private final Boolean success;
+  @Schema(description = "Сообщение об ошибке", required = true)
+  private String message;
 }

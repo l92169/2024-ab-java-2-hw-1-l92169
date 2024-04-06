@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Image {
-    @Schema(description = "ИД файла", required = false, format = "uuid")
-    private String imageId;
+  @Schema(description = "ИД файла", required = false, format = "uuid")
+  private String imageId;
 
-    @Schema(description = "Название изображения", required = true)
-    private String filename;
+  @Schema(description = "Название изображения", required = true)
+  private String filename;
 
-    @Schema(description = "Размер файла в байтах", required = true, format = "int32")
-    private int size;
+  @Schema(description = "Размер файла в байтах", required = true, format = "int32")
+  private int size;
 }
