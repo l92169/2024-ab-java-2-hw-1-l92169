@@ -1,4 +1,4 @@
-package com.example.dto;
+package com.example.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.UUID;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UploadImageResponse {
-  @Schema(description = "ИД файла")
-  private UUID imageId;
+public class ApplyImageFiltersResponse {
+  @Schema(description = "ИД запроса в системе", required = true)
+  private UUID requestId;
 }

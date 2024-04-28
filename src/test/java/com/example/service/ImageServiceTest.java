@@ -2,14 +2,12 @@ package com.example.service;
 
 import com.example.domain.ImageT;
 import com.example.domain.User;
-import com.example.dto.GetImagesResponse;
-import com.example.dto.Image;
-import com.example.dto.UiSuccessContainer;
+import com.example.dto.response.GetImagesResponse;
+import com.example.dto.response.Image;
+import com.example.dto.response.UiSuccessContainer;
 import com.example.exceptions.ImageNotFoundException;
 import com.example.mapper.ImagesMapper;
 import com.example.repository.ImageRepository;
-import com.example.service.ImageService;
-import com.example.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,7 +1,7 @@
 package com.example.mapper;
 
 import com.example.domain.ImageT;
-import com.example.dto.Image;
+import com.example.dto.response.Image;
 import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
