@@ -1,16 +1,17 @@
 version: '3.8'
 services:
   service-back:
-     image: l1zail/homework_tink:latest
-     ports:
-       - "8080:8080"
-     depends_on:
-       db:
-         condition: service_healthy
-     environment:
-       - SERVER_PORT= 8080
-       - SPRING_DATASOURCE_URL=jdbc:postgresql://db/homework2
-       - MINIO_URL= http://minio:9000
+    image: l1zail/homework_tink:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db/homework2
+      - MINIO_URL= http://minio:9000
+      - SPRING_CLOUD_ZOOKEEPER_CONNECT_STRING=zookeeper:2181
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka-1:9092,kafka-2:9093,kafka-3:9094
   db:
     image: postgres:14.7-alpine
     container_name: db
@@ -81,7 +82,7 @@ services:
     volumes:
       - ./kafka/kafka_server_jaas.conf:/etc/kafka/kafka_server_jaas.conf
     environment:
-      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka-1:19092,EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9092,DOCKER://host.docker.internal:29092
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka-1:19092,EXTERNAL://kafka-1:9092,DOCKER://host.docker.internal:29092
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:SASL_PLAINTEXT,DOCKER:SASL_PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
@@ -100,7 +101,7 @@ services:
     volumes:
       - ./kafka/kafka_server_jaas.conf:/etc/kafka/kafka_server_jaas.conf
     environment:
-      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka-2:19093,EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9093,DOCKER://host.docker.internal:29093
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka-2:19093,EXTERNAL://kafka-2:9093,DOCKER://host.docker.internal:29093
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:SASL_PLAINTEXT,DOCKER:SASL_PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
@@ -119,7 +120,7 @@ services:
     volumes:
       - ./kafka/kafka_server_jaas.conf:/etc/kafka/kafka_server_jaas.conf
     environment:
-      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka-3:19094,EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9094,DOCKER://host.docker.internal:29094
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka-3:19094,EXTERNAL://kafka-3:9094,DOCKER://host.docker.internal:29094
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:SASL_PLAINTEXT,DOCKER:SASL_PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"

@@ -46,7 +46,7 @@ spring:
     properties:
       security.protocol: SASL_PLAINTEXT
       sasl.mechanism: PLAIN
-      sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="${KAFKA_USER:admin}" password="${KAFKA_PASSWORD:admin-secret}";
+      sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="admin" password="admin-secret";
 
   cloud:
     zookeeper:
@@ -67,11 +67,3 @@ minio:
 token:
   signing:
     key: AC13E9DC05A0195C9FE3CC6BC81E4729A20AC2DF0AD680A4FAD3D3F961C07F72
-
-
-app:
-  topic1: ${TOPIC:images.wip}
-  topic2: ${TOPIC:images.done}
-  partitions: ${PARTITIONS:2}
-  replicas: ${REPLICAS:3}
-  group-id: ${GROUP_ID:custom-group-id}
