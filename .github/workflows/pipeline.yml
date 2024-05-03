@@ -51,14 +51,14 @@ jobs:
           distribution: 'adopt'
 
       - name: Start PostgreSQL database
-        run: docker-compose up -d db
+        run: docker-compose up
 
       - name: "Wait for docker to finish building"
-        run: sleep 30
+        run: sleep 40
 
       - name: Generate Coverage Report
         run: |
-          mvn clean install
+          docker-compose up -d db mongodb redis minio
 
       - name: Upload Report
         uses: 'actions/upload-artifact@v2'
