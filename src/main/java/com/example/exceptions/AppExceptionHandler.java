@@ -1,6 +1,6 @@
 package com.example.exceptions;
 
-import com.example.dto.UiSuccessContainer;
+import com.example.dto.response.UiSuccessContainer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;

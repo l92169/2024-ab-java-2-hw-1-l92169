@@ -1,7 +1,7 @@
 package com.example.controller;
 
-import com.example.dto.UiSuccessContainer;
-import com.example.dto.UploadImageResponse;
+import com.example.dto.response.UiSuccessContainer;
+import com.example.dto.response.UploadImageResponse;
 import com.example.service.ImageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

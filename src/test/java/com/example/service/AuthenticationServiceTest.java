@@ -2,17 +2,14 @@ package com.example.service;
 
 import com.example.domain.Role;
 import com.example.domain.User;
-import com.example.dto.JwtAuthenticationResponse;
-import com.example.dto.SignInRequest;
-import com.example.dto.SignUpRequest;
+import com.example.dto.response.JwtAuthenticationResponse;
+import com.example.dto.request.SignUpRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 

@@ -51,7 +51,7 @@ jobs:
           distribution: 'adopt'
 
       - name: Start PostgreSQL database
-        run: docker-compose up -d db
+        run: docker-compose up -d db mongodb redis minio
 
       - name: "Wait for docker to finish building"
         run: sleep 30

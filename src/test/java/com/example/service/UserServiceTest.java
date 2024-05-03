@@ -1,10 +1,7 @@
 package com.example.service;
 
-import com.example.domain.ImageT;
 import com.example.domain.Role;
 import com.example.domain.User;
-import com.example.dto.ImageDto;
-import com.example.dto.UploadImageResponse;
 import com.example.repository.ImageRepository;
 import com.example.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,10 +13,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;

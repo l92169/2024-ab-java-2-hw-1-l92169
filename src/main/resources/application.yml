@@ -1,5 +1,7 @@
 server:
   port: 8080
+
+
 spring:
   graphql:
     graphiql:
@@ -35,6 +37,23 @@ spring:
   web:
     locale: ru_RU
 
+  kafka:
+    listener.ack-mode: manual
+    bootstrap-servers:
+      - localhost:9092
+      - localhost:9093
+      - localhost:9094
+    properties:
+      security.protocol: SASL_PLAINTEXT
+      sasl.mechanism: PLAIN
+      sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="admin" password="admin-secret";
+
+  cloud:
+    zookeeper:
+      config.enabled: false
+      connect-string: localhost:2181
+
+
 minio:
   url: http://localhost:9000
   port: 9000
@@ -43,6 +62,7 @@ minio:
   secure: false
   bucket: minio-storage
   image-size: 10485760
+
 
 token:
   signing:

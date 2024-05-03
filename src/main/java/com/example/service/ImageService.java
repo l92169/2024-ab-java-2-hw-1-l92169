@@ -2,11 +2,11 @@ package com.example.service;
 
 import com.example.domain.ImageT;
 import com.example.domain.User;
-import com.example.dto.GetImagesResponse;
-import com.example.dto.Image;
 import com.example.dto.ImageDto;
-import com.example.dto.UiSuccessContainer;
-import com.example.dto.UploadImageResponse;
+import com.example.dto.response.GetImagesResponse;
+import com.example.dto.response.Image;
+import com.example.dto.response.UiSuccessContainer;
+import com.example.dto.response.UploadImageResponse;
 import com.example.exceptions.ImageNotFoundException;
 import com.example.mapper.ImagesMapper;
 import com.example.repository.ImageRepository;
@@ -42,7 +42,8 @@ public class ImageService {
   public UploadImageResponse uploadImage(MultipartFile file) throws Exception {
     ImageDto imageDto = service.uploadImage(file);
     ImageT imageT = new ImageT().setName(imageDto.getName()).setSize(imageDto.getSize())
-        .setLink(imageDto.getLink()).setUserId(userService.getCurrentUser().getId());
+        .setLink(imageDto.getLink()).setUserId(userService.getCurrentUser().getId())
+        .setId(UUID.randomUUID());
     imageT = repository.save(imageT);
     return new UploadImageResponse(imageT.getId());
   }
