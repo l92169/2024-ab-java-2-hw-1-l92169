@@ -17,4 +17,5 @@ public class MinioProperties {
   private boolean secure;
   private String bucket;
   private long imageSize;
+  private int ttl;
 }
