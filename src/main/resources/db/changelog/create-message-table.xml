@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+    <changeSet id="create-messages-table" author="liza">
+        <createTable tableName="messages">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="author" type="varchar(100)"/>
+            <column name="content" type="varchar(300)"/>
+            <column name="last_modified" type="timestamp"/>
+        </createTable>
+
+        <createTable tableName="message_images">
+            <column name="message_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="image_id" type="int">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="message_id, image_id" tableName="message_images" constraintName="pk_message_images"/>
+
+        <addForeignKeyConstraint constraintName="fk_message_images_message"
+                                 baseTableName="message_images"
+                                 baseColumnNames="message_id"
+                                 referencedTableName="messages"
+                                 referencedColumnNames="id"/>
+
+        <addForeignKeyConstraint constraintName="fk_message_images_image"
+                                 baseTableName="message_images"
+                                 baseColumnNames="image_id"
+                                 referencedTableName="images"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>
