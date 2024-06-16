@@ -204,6 +204,9 @@
                         <goals>
                             <goal>report</goal>
                         </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/reports/jacoco</outputDirectory>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
