@@ -38,7 +38,7 @@ public class ImageFiltersService {
     }
     Request request = requestRepository.save(
         new Request().status(STATUS.WIP).originImageId(imageId).changedImageId(null));
-    ImageWip message = new ImageWip(image.get().getId(), request.id(),
+    ImageWip message = new ImageWip(UUID.fromString(image.get().getLink()), request.id(),
         filters.stream().map(Enum::name).toList());
     kafkaTemplate.send("images.wip", message);
     return new ApplyImageFiltersResponse(request.id());
@@ -47,16 +47,16 @@ public class ImageFiltersService {
   @Transactional
   public void setDone(UUID imageId, UUID requestId) throws Exception {
     Request request = requestRepository.findRequestById(requestId).orElseThrow();
-    request.status(STATUS.DONE).changedImageId(imageId);
-    requestRepository.save(request);
     ImageT originalImage = imageRepository.findImageById(request.originImageId()).orElseThrow(
         () -> new ImageNotFoundException("Файл не найден в системе или недоступен"));
     String editedFilename = "%s_edited.%s".formatted(FilenameUtils.getName(originalImage.getName()),
         FilenameUtils.getExtension(originalImage.getName()));
-    long size = minioService.getSize(originalImage.getLink());
-    ImageT editedImage = new ImageT(imageId, editedFilename, size, originalImage.getLink(),
-        originalImage.getUserId());
+    long size = minioService.getSize(String.valueOf(imageId));
+    ImageT editedImage = new ImageT(UUID.randomUUID(), editedFilename, size,
+        String.valueOf(imageId), originalImage.getUserId());
+    request.status(STATUS.DONE).changedImageId(editedImage.getId());
     imageRepository.save(editedImage);
+    requestRepository.save(request);
   }
 
   public GetModifiedImageByRequestIdResponse getModifiedImageByRequestId(UUID imageId,

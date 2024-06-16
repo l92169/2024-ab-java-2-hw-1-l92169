@@ -2,9 +2,9 @@ package com.example.service;
 
 import com.example.domain.Role;
 import com.example.domain.User;
-import com.example.dto.response.JwtAuthenticationResponse;
 import com.example.dto.request.SignInRequest;
 import com.example.dto.request.SignUpRequest;
+import com.example.dto.response.JwtAuthenticationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

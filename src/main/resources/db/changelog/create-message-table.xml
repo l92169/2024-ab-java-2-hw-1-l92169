@@ -24,7 +24,8 @@
             </column>
         </createTable>
 
-        <addPrimaryKey columnNames="message_id, image_id" tableName="message_images" constraintName="pk_message_images"/>
+        <addPrimaryKey columnNames="message_id, image_id" tableName="message_images"
+                       constraintName="pk_message_images"/>
 
         <addForeignKeyConstraint constraintName="fk_message_images_message"
                                  baseTableName="message_images"
