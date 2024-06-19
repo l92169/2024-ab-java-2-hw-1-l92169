@@ -11,9 +11,13 @@ services:
         condition: service_healthy
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db/homework2
-      - MINIO_URL= http://minio:9000
+      - MINIO_URL=http://minio:9000
       - SPRING_CLOUD_ZOOKEEPER_CONNECT_STRING=zookeeper:2181
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka-1:9092,kafka-2:9093,kafka-3:9094
+      - MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE=prometheus
+      - MANAGEMENT_ENDPOINT_PROMETHEUS_ENABLED=true
+      - MANAGEMENT_ENDPOINT_PROMETHEUS_METRICS_EXPORT_ENABLED=true
+      - MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED=true
   db:
     image: postgres:14.7-alpine
     container_name: db
@@ -32,6 +36,7 @@ services:
       interval: 1s
       timeout: 5s
       retries: 10
+
   mongodb:
     image: mongo:latest
     container_name: mongodb
@@ -133,6 +138,31 @@ services:
     depends_on:
       - zookeeper
 
+  grafana:
+    build: './config/grafana'
+    ports:
+      - 3000:3000
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    networks:
+      - monitoring
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus:/prometheus
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
+    driver: bridge
 
 volumes:
   db_data:
