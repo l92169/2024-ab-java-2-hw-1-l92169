@@ -13,9 +13,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import javax.imageio.ImageIO;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class SharpFilter {
-
   public static byte[] applyFilter(final byte[] imageData, final String mediaType)
       throws IOException {
     ByteArrayInputStream inputStream = new ByteArrayInputStream(imageData);
@@ -25,7 +26,7 @@ public class SharpFilter {
     }
     int width = originalImage.getWidth();
     int height = originalImage.getHeight();
-        int numThreads =
+    int numThreads =
         Runtime.getRuntime().availableProcessors();
     ExecutorService executorService = Executors.newFixedThreadPool(numThreads);
 

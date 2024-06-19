@@ -3,6 +3,10 @@ server:
 
 
 spring:
+  client:
+    upload-url: https://api.imagga.com/v2/uploads
+    tags-url: https://api.imagga.com/v2/tags
+    api-key: YWNjX2QxNmFlOTFiNzhjNGRlNDo4OTAxMjFjZTA2NjQ5Y2FjMmVkYjNjZGEwNjUwZGVmNg==
   graphql:
     graphiql:
       enabled: true
@@ -68,3 +72,34 @@ minio:
 token:
   signing:
     key: AC13E9DC05A0195C9FE3CC6BC81E4729A20AC2DF0AD680A4FAD3D3F961C07F72
+
+
+resilience4j:
+  ratelimiter:
+    instances:
+      MyRateLimiter:
+        limitForPeriod: 1000
+        limitRefreshPeriod: 1m
+        timeoutDuration: 0
+  retry:
+    instances:
+      MyRerty:
+        maxAttempts: 3
+        waitDuration: 1s
+        retryExceptions:
+          - java.io.IOException
+          - java.net.SocketTimeoutException
+        ignoreExceptions:
+          - org.springframework.web.client.HttpClientErrorException.BadRequest
+          - org.springframework.web.client.HttpClientErrorException.Unauthorized
+          - org.springframework.web.client.HttpClientErrorException.NotFound
+  circuitbreaker:
+    instances:
+      MyCircuitBreaker:
+        failureRateThreshold: 50
+        slowCallRateThreshold: 50
+        slowCallDurationThreshold: 2s
+        permittedNumberOfCallsInHalfOpenState: 5
+        slidingWindowSize: 10
+        minimumNumberOfCalls: 10
+        waitDurationInOpenState: 1m

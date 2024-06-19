@@ -2,6 +2,7 @@ package com.example.kafka;
 
 import com.example.domain.enums.FILTER;
 import com.example.filter.GrayFilter;
+import com.example.filter.IntegrationFilter;
 import com.example.filter.MyImageFilter;
 import com.example.filter.RotateFilter;
 import com.example.filter.SharpFilter;
@@ -118,6 +119,34 @@ public class KafkaConsumer {
     );
   }
 
+
+  @KafkaListener(
+      topics = TOPIC_WIP,
+      groupId = "consumer-wip-tags",
+      concurrency = "2",
+      properties = {
+          ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG + "=false",
+          ConsumerConfig.ISOLATION_LEVEL_CONFIG + "=read_committed",
+          ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG +
+              "=org.apache.kafka.clients.consumer.RoundRobinAssignor",
+          ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG +
+              "=org.apache.kafka.common.serialization.StringDeserializer",
+          ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG +
+              "=org.springframework.kafka.support.serializer.JsonDeserializer",
+          JsonDeserializer.TRUSTED_PACKAGES + "=com.example.kafka.message",
+          ConsumerConfig.AUTO_OFFSET_RESET_CONFIG + "=earliest"
+      }
+  )
+  public void consumeTags(
+      final ConsumerRecord<String, ImageWip> record,
+      final Acknowledgment acknowledgment
+  ) throws Exception {
+    consume(record,
+        acknowledgment,
+        IntegrationFilter::applyFilter,
+        FILTER.TAGS
+    );
+  }
 
   @KafkaListener(
       topics = "images.done",

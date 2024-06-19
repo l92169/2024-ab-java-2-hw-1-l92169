@@ -60,9 +60,12 @@ public final class GrayFilter {
     }
   }
 
-  private static BufferedImage convertToGrayScalePart(BufferedImage originalImage, int startRow, int endRow) {
-    BufferedImage subImage = originalImage.getSubimage(0, startRow, originalImage.getWidth(), endRow - startRow);
-    BufferedImage grayImagePart = new BufferedImage(subImage.getWidth(), subImage.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
+  private static BufferedImage convertToGrayScalePart(BufferedImage originalImage, int startRow,
+                                                      int endRow) {
+    BufferedImage subImage =
+        originalImage.getSubimage(0, startRow, originalImage.getWidth(), endRow - startRow);
+    BufferedImage grayImagePart =
+        new BufferedImage(subImage.getWidth(), subImage.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
     ColorConvertOp op = new ColorConvertOp(ColorSpace.getInstance(ColorSpace.CS_GRAY), null);
     op.filter(subImage, grayImagePart);
     return grayImagePart;

@@ -6,7 +6,10 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import lombok.extern.slf4j.Slf4j;
 
+
+@Slf4j
 public class RotateFilter {
   public static byte[] applyFilter(final byte[] imageData, final String mediaType)
       throws IOException {
