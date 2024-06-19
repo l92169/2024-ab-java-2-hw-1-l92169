@@ -3,6 +3,8 @@ server:
 
 
 spring:
+  application:
+    name: app
   client:
     upload-url: https://api.imagga.com/v2/uploads
     tags-url: https://api.imagga.com/v2/tags
@@ -103,3 +105,35 @@ resilience4j:
         slidingWindowSize: 10
         minimumNumberOfCalls: 10
         waitDurationInOpenState: 1m
+
+management:
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+    health:
+      show-details: always
+      show-components: always
+      probes:
+        enabled: true
+    shutdown:
+      enabled: true
+    info:
+      env:
+        enabled: true
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: *
+  prometheus:
+    metrics:
+      export:
+        enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
+    distribution:
+      percentiles-histogram:
+        "[http.server.requests]": true
